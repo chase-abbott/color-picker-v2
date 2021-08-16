@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable max-len */
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from '../../state/RecordProvider';
+import { RECORD, UNDO, REDO } from '../../state/actions';
 
 const useRecord = (init) => {
   const [before, setBefore] = useState([]);
@@ -31,7 +34,10 @@ const useRecord = (init) => {
 };
 
 function App() {
+  const dispatch = useDispatch();
+  const selector = useSelector();
   const { current, undo, redo, record } = useRecord('#FF0000');
+
 
   return (
     <>
@@ -40,7 +46,7 @@ function App() {
       <input
         type="color"
         value={current}
-        onChange={({ target }) => record(target.value)}
+        onChange={({ target }) => dispatch({ type: RECORD, payload: target.value })}
         data-testid="input"
       />
       <div
