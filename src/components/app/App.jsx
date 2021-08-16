@@ -41,8 +41,10 @@ function App() {
         type="color"
         value={current}
         onChange={({ target }) => record(target.value)}
+        data-testid="input"
       />
       <div
+        data-testid="display"
         style={{ backgroundColor: current, width: '10rem', height: '10rem' }}
       ></div>
     </>
