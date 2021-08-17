@@ -1,15 +1,16 @@
 import React from 'react';
 import { render, cleanup, screen, fireEvent } from '@testing-library/react';
 import App from './App';
+import { RecordProvider } from '../../state/RecordProvider';
 
 describe('App component', () => {
   afterEach(() => cleanup());
   it('renders App', () => {
-    const { asFragment } = render(<App />);
+    const { asFragment } = render(<RecordProvider><App /></RecordProvider>);
     expect(asFragment()).toMatchSnapshot();
   });
   it('tests the behavior of App component', () => {
-    render(<App/>);
+    render(<RecordProvider><App/> <RecordProvider/></RecordProvider>);
     const display = screen.getByTestId('display');
 
     const input = screen.getByTestId('input');
