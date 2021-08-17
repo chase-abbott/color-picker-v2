@@ -1,37 +1,24 @@
-import React, { useState } from 'react';
+/* eslint-disable max-len */
+import React from 'react';
+import { useDispatch, useSelector } from '../../state/RecordProvider';
+import { undoAction, redoAction, recordAction } from '../../state/actions';
 
-const useRecord = (init) => {
-  const [before, setBefore] = useState([]);
-  const [current, setCurrent] = useState(init);
-  const [after, setAfter] = useState([]);
-
-  const undo = () => {
-    setAfter((after) => [current, ...after]);
-    setCurrent(before[before.length - 1]);
-    setBefore((before) => before.slice(0, -1));
-  };
-
-  const redo = () => {
-    setBefore((before) => [...before, current]);
-    setCurrent(after[0]);
-    setAfter((after) => after.slice(1));
-  };
-
-  const record = (val) => {
-    setBefore((before) => [...before, current]);
-    setCurrent(val);
-  };
-
-  return {
-    undo,
-    record,
-    redo,
-    current,
-  };
-};
 
 function App() {
-  const { current, undo, redo, record } = useRecord('#FF0000');
+  const dispatch = useDispatch();
+  const selector = useSelector();
+
+  const undo = () => (
+    dispatch(undoAction())
+  );
+
+  const redo = () => (
+    dispatch(redoAction())
+  );
+
+  const record = value => (
+    dispatch(recordAction(value))
+  );
 
   return (
     <>
@@ -39,11 +26,13 @@ function App() {
       <button onClick={redo}>redo</button>
       <input
         type="color"
-        value={current}
+        value={selector.current}
         onChange={({ target }) => record(target.value)}
+        data-testid="input"
       />
       <div
-        style={{ backgroundColor: current, width: '10rem', height: '10rem' }}
+        data-testid="display"
+        style={{ backgroundColor: selector.current, width: '10rem', height: '10rem' }}
       ></div>
     </>
   );
