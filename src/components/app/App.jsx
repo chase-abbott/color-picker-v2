@@ -41,17 +41,17 @@ function App() {
 
   return (
     <>
-      <button onClick={undo}>undo</button>
+      <button onClick={() => dispatch({ type: UNDO })}>undo</button>
       <button onClick={redo}>redo</button>
       <input
         type="color"
-        value={current}
+        value={selector.current}
         onChange={({ target }) => dispatch({ type: RECORD, payload: target.value })}
         data-testid="input"
       />
       <div
         data-testid="display"
-        style={{ backgroundColor: current, width: '10rem', height: '10rem' }}
+        style={{ backgroundColor: selector.current, width: '10rem', height: '10rem' }}
       ></div>
     </>
   );

@@ -4,7 +4,7 @@ import { reducer, initialState } from './reducer';
 
 const RecordContext = createContext();
 
-const RecordProvider = ({ children }) => {
+export const RecordProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <RecordContext.Provider value={{ state, dispatch }}>
@@ -13,16 +13,13 @@ const RecordProvider = ({ children }) => {
   );
 };
 
-const useDispatch = () => {
+export const useDispatch = () => {
   const { dispatch } = useContext(RecordContext);
   return dispatch;
 };
 
-const useSelector = () => {
+export const useSelector = () => {
   const { state } = useContext(RecordContext);
   return state;
 };
 
-export { RecordProvider,
-  useDispatch,
-  useSelector };
